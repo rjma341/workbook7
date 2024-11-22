@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 18px;
+      text-align: left;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Users</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody id="users-table-body">
+      <!-- Table rows will be injected here -->
+    </tbody>
+  </table>
+  <script>
+    // JavaScript to fetch and display users
+    const apiUrl = "https://jsonplaceholder.typicode.com/users";
+
+    // Function to fetch users and populate the table
+    async function fetchUsers() {
+      try {
+        const response = await fetch(apiUrl);
+        const users = await response.json();
+
+        const tableBody = document.getElementById("users-table-body");
+        tableBody.innerHTML = ""; // Clear any existing rows
+
+        users.forEach(user => {
+          const row = document.createElement("tr");
+
+          // Create and append table cells
+          row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.phone}</td>
+            <td>${user.company.name}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+
+    // Fetch users when the page loads
+    fetchUsers();
+  </script>
+</body>
+</html>
